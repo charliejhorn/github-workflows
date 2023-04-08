@@ -3,11 +3,9 @@ name: Node.js CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
+  deploy:
 
     runs-on: windows-latest
 
@@ -22,5 +20,5 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run
+      - run: npm install
+      - run: node server.js
