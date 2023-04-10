@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: public-artifact
-          path: ./public/
+          path: public/index.html
 
   # publish-npm:
   #   needs: build
