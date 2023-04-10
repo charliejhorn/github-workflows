@@ -5,20 +5,40 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
-
+  setup-node:
     runs-on: windows-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 18.15
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.15
       - run: npm ci
       - run: npm run build
+
+  upload-artifact:
+    runs-on: windows-latest
+
+    steps:
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: /public
+
+  # publish-npm:
+  #   needs: build
+  #   runs-on: windows-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18.15
+  #         # registry-url: https://registry.npmjs.org/
+  #     - run: npm ci
+  #     - run: npm publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.npm_token}}
